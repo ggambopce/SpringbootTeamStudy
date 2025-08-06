@@ -7,6 +7,8 @@ import com.springboot.study.backend.domain.user.entity.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserRepository {
@@ -18,9 +20,16 @@ public class UserRepository {
     }
 
   // username으로 사용자 조회
-  public User findByUsername(String username) {
-    String sql = "SELECT id, username, password FROM users WHERE username = ? LIMIT 1";
-    User user = (User) jdbcTemplate.query(sql, new UserRowMapper(), username);
+  public Optional<User> findByUsername(String username) {
+    String sql = "SELECT id, username, password FROM users WHERE username = ?";
+    List<User> users = jdbcTemplate.query(sql, new UserRowMapper(), username);
+    return users.isEmpty() ? Optional.empty() : Optional.of(users.get(0));
+  }
+
+  // 사용자 저장 (회원가입)
+  public User save(User user) {
+    String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+    jdbcTemplate.update(sql, user.getUsername(), user.getPassword());
     return user;
   }
 
