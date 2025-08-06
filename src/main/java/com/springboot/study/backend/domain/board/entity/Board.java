@@ -14,20 +14,20 @@ import java.time.LocalDateTime;
 public class Board {
     @Id // 기본키
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키 자동 증가 전략
-    private Long postId; // 게시글 ID
+    private Long post_id; // 게시글 ID
 
-    private Long userId; // 작성자 ID
+    private Long user_id; // 작성자 ID
     
-    private String postTitle; // 게시글 제목
+    private String post_title; // 게시글 제목
     
-    private String postContent; // 게시글 내용
+    private String post_content; // 게시글 내용
     
-    private LocalDateTime createdAt; // 업로드 날짜
+    private LocalDateTime created_at; // 업로드 날짜
     
     // 게시물 업데이트를 위한 비즈니스 로직
-    public void update(String postTitle, String postContent) {
-        this.postTitle = postTitle;
-        this.postContent = postContent;
-        this.createdAt = LocalDateTime.now(); // 업로드 날짜도 업데이트
+    public void update(String post_title, String post_content) {
+        this.post_title = post_title;
+        this.post_content = post_content;
+        this.created_at = LocalDateTime.now(); // 업로드 날짜도 업데이트
     }
 }
