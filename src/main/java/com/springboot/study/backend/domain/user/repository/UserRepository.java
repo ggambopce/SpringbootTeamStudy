@@ -1,9 +1,9 @@
-package domain.user.repository;
+package com.springboot.study.backend.domain.user.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.RowMapper;
-import domain.user.entity.User;
+import com.springboot.study.backend.domain.user.entity.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ public class UserRepository {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public userRepository(JdbcTemplate jdbcTemplate) {
+  public UserRepository(JdbcTemplate jdbcTemplate) {
       this.jdbcTemplate = jdbcTemplate;
     }
 

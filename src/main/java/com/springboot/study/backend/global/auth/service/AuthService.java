@@ -1,7 +1,7 @@
-package global.auth.service;
+package com.springboot.study.backend.global.auth.service;
 
-import domain.user.entity.User;
-import domain.user.repository.UserRepository;
+import com.springboot.study.backend.domain.user.entity.User;
+import com.springboot.study.backend.domain.user.repository.UserRepository;
 
 import org.springframework.stereotype.Service;
 

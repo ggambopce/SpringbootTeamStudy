@@ -1,4 +1,4 @@
-package domain.user.entity;
+package com.springboot.study.backend.domain.user.entity;
 
 public class User{
   private  Long id;

@@ -1,7 +1,7 @@
-package global.auth.controller;
+package com.springboot.study.backend.global.auth.controller;
 
 import org.springframework.web.bind.annotation.*;
-import domain.user.entity.User;
+import com.springboot.study.backend.domain.user.entity.User;
 
 
 @RestController
@@ -9,8 +9,9 @@ import domain.user.entity.User;
 public class AuthController {
 
   @PostMapping("/login")
-  public User login(@RequestBody) {
+  public User login(@RequestBody User loginRequest) {
     //authService.login()
+    return null;
   }
   
   @GetMapping("/logout")
