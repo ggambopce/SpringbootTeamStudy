@@ -23,33 +23,33 @@ public class BoardService {
     // 게시물 단건 조회
     @Transactional(readOnly = true)
     public Board findBoardById(Long postId) {
-        return boardRepository.findById(postId).orElse(null);
+        return boardRepository.findById(postId);
     }
     
     // 게시물 작성
     @Transactional
     public Board createBoard(Board board) {
-        board.setCreatedAt(LocalDateTime.now());
+        Board createdBoard = boardRepository.createBoard(board);
+
+        createdBoard.setCreated_at(LocalDateTime.now());
         // createdAt 필드는 DB에 저장되기 직전에 설정
         // 비즈니스 로직: 게시물 제목 길이 검증
         // 예외처리는 컨트롤러에서 하거나 글로벌 예외 핸들러에서 처리할 것. 팀원들과 글로벌 예외를 처리할 지 상의 후 결정.
-        if (board.getPostTitle() == null || board.getPostTitle().length() > 255) {
+        if (createdBoard.getPost_title() == null || createdBoard.getPost_title().length() > 255) {
             throw new IllegalArgumentException("게시물 제목이 유효하지 않습니다.");
         }
-        return boardRepository.save(board);
+        return createdBoard;
     }
 
     // 게시물 수정
     @Transactional
     public Board updateBoard(Long postId, Board updatedBoard) {
-        Board board = boardRepository.findById(postId)
-            .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + postId));
-        
+        Board board = boardRepository.findById(postId);
         // 게시물 업데이트 비즈니스 로직
-        board.update(updatedBoard.getPostTitle(), updatedBoard.getPostContent());
+        board.update(updatedBoard.getPost_title(), updatedBoard.getPost_content());
         
         // save() 메서드가 내부적으로 업데이트 로직을 처리합니다.
-        return boardRepository.save(board);
+        return boardRepository.editBoard(board);
     }
     
     // 게시물 삭제

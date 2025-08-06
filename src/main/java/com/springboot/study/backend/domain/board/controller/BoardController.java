@@ -29,7 +29,7 @@ public class BoardController {
 
     /**
      * 게시물 단건 조회
-     * GET /api/board/{postId}
+     * GET /api/board/{post_id}
      * @param postId 조회할 게시물의 ID
      * @return 해당 게시물과 HTTP 200 OK 상태, 또는 게시물이 없을 경우 HTTP 404 NOT FOUND
      */
@@ -57,7 +57,7 @@ public class BoardController {
 
     /**
      * 게시물 수정
-     * PUT /api/board/{postId}
+     * PUT /api/board/{post_id}
      * @param postId 수정할 게시물의 ID
      * @param updatedBoard 수정된 게시물 정보
      * @return 수정된 게시물 정보와 HTTP 200 OK 상태
@@ -70,7 +70,7 @@ public class BoardController {
 
     /**
      * 게시물 삭제
-     * DELETE /api/board/{postId}
+     * DELETE /api/board/{post_id}
      * @param postId 삭제할 게시물의 ID
      * @return HTTP 204 NO CONTENT 상태
      */
