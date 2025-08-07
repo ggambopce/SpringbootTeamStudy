@@ -63,13 +63,30 @@ public class AuthService {
         .compact();
   }
 
-  // JWT 토큰 검증
+  // JWT 토큰 검증 및 사용자명 추출
   public String getUsernameFromJwtToken(String token) {
-    return Jwts.parserBuilder()
-        .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
-        .build()
-        .parseClaimsJws(token)
-        .getBody()
-        .getSubject();
+    try {
+      return Jwts.parserBuilder()
+          .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
+          .build()
+          .parseClaimsJws(token)
+          .getBody()
+          .getSubject();
+    } catch (Exception e) {
+      throw new RuntimeException("유효하지 않은 JWT 토큰입니다: " + e.getMessage());
+    }
+  }
+
+  // JWT 토큰 유효성 검증
+  public boolean validateJwtToken(String token) {
+    try {
+      Jwts.parserBuilder()
+          .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
+          .build()
+          .parseClaimsJws(token);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
   }
 }
