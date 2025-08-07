@@ -33,9 +33,9 @@ public class BoardController {
      * @param postId 조회할 게시물의 ID
      * @return 해당 게시물과 HTTP 200 OK 상태, 또는 게시물이 없을 경우 HTTP 404 NOT FOUND
      */
-    @GetMapping("/{postId}")
-    public ResponseEntity<Board> getBoardById(@PathVariable Long postId) {
-        Board board = boardService.findBoardById(postId);
+    @GetMapping("/{post_id}")
+    public ResponseEntity<Board> getBoardById(@PathVariable("post_id") Long post_id) {
+        Board board = boardService.findBoardById(post_id);
         // 게시물이 존재하지 않을 경우를 대비하여 처리
         if (board == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -62,9 +62,9 @@ public class BoardController {
      * @param updatedBoard 수정된 게시물 정보
      * @return 수정된 게시물 정보와 HTTP 200 OK 상태
      */
-    @PutMapping("/{postId}")
-    public ResponseEntity<Board> updateBoard(@PathVariable Long postId, @RequestBody Board updatedBoard) {
-        Board board = boardService.updateBoard(postId, updatedBoard);
+    @PutMapping("/{post_id}")
+    public ResponseEntity<Board> updateBoard(@PathVariable("post_id") Long post_id, @RequestBody Board updatedBoard) {
+        Board board = boardService.updateBoard(post_id, updatedBoard);
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
 
@@ -74,9 +74,9 @@ public class BoardController {
      * @param postId 삭제할 게시물의 ID
      * @return HTTP 204 NO CONTENT 상태
      */
-    @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deleteBoard(@PathVariable Long postId) {
-        boardService.deleteBoard(postId);
+    @DeleteMapping("/{post_id}")
+    public ResponseEntity<Void> deleteBoard(@PathVariable("post_id") Long post_id) {
+        boardService.deleteBoard(post_id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
