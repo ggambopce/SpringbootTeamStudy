@@ -4,12 +4,20 @@ import com.springboot.study.backend.domain.user.entity.User;
 import com.springboot.study.backend.domain.user.repository.UserRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 import java.util.Optional;
+import java.util.Date;
+import javax.crypto.spec.SecretKeySpec;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Service
 public class AuthService {
 
   private final UserRepository userRepository;
+  private final String jwtSecret = "yRDz7h8Z7uYWh4p3Mq03WIxpFUN0m7VylfglY4PlhELCMuSoXzdeS3qbkCFeMjNl";
+  private final int jwtExpirationMs = 24 * 60 * 60 * 1000; // 24시간 
 
   public AuthService(UserRepository userRepository){
     this.userRepository = userRepository;
@@ -43,5 +51,25 @@ public class AuthService {
     }
     
     return user;
+  }
+
+  // JWT 토큰 생성
+  public String generateJwtToken(User user) {
+    return Jwts.builder()
+        .setSubject(user.getUsername())
+        .setIssuedAt(new Date())
+        .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+        .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()), SignatureAlgorithm.HS512)
+        .compact();
+  }
+
+  // JWT 토큰 검증
+  public String getUsernameFromJwtToken(String token) {
+    return Jwts.parserBuilder()
+        .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
+        .build()
+        .parseClaimsJws(token)
+        .getBody()
+        .getSubject();
   }
 }

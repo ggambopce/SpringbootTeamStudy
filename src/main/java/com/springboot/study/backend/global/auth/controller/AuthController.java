@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import com.springboot.study.backend.domain.user.entity.User;
 import com.springboot.study.backend.global.auth.service.AuthService;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -26,9 +28,19 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest request, HttpServletResponse response) {
         try {
             User user = authService.login(request.getUsername(), request.getPassword());
+            String jwtToken = authService.generateJwtToken(user);
+            
+            // HttpOnly 쿠키 설정
+            Cookie cookie = new Cookie("auth_token", jwtToken);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(false); // http 쿠키전송 허용
+            cookie.setPath("/");
+            cookie.setMaxAge(24 * 60 * 60); // 24시간
+            response.addCookie(cookie);
+            
             return ResponseEntity.ok("로그인 성공");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
